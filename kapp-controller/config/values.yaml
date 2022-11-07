@@ -1,0 +1,4 @@
+#@data/values
+---
+namespace: kuard-app-ns
+replicas: 3
