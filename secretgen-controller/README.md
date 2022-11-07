@@ -1,8 +1,7 @@
 # Secretgen-Controller Overview
 
-The secretgen-controller is part of the [Carvel](https://carvel.dev/) tool suite. It is available as a package in all
-Tanzu clusters. On TCE unmanaged clusters it is available but not installed - on all other Tanzu clusters it is
-installed.
+The secretgen-controller is part of the [Carvel](https://carvel.dev/) tool suite. It is pre-installed on all
+Tanzu clusters, and can be installed on any other Kubernetes cluster.
 
 The secretgen-controller does a few things:
 
@@ -14,65 +13,39 @@ The secretgen-controller does a few things:
    https://tanzu.vmware.com/developer/guides/tanzu-service-secret-sauce/
 
 The Tanzu CLI includes a function that will create a registry secret. The Tanzu CLI secret functionality
-requires the secretgen-controller to be installed! This is not strictly necessary in a TCE unmanaged cluster currently,
-but we assume it will be coming shortly.
+requires the secretgen-controller to be installed!
 
 Full details about the secretgen-controller are here: https://github.com/vmware-tanzu/carvel-secretgen-controller
 
 **Important:** We will not use the secretgen-controller in this workshop, so you can safely skip this section. Using the
 secretgen-controller is useful if you want to set up different namespaces for different developers.
 
-## Install the secretgen-controller in a TCE Unmanaged Cluster
+## Installing the Secretgen-Controller
 
-If you created a TCE unmanaged cluster you will need to install the secretgen-controller. You can see if the controller
-is already installed with the following command:
+The Secretgen-Controller is pre-installed in all Tanzu clusters. You can verify the installation in a few ways:
+
+1. `tanzu package installed list -A` should show the secretgen-controller package installed (likely in the tkg-system namespace)
+1. `kapp list -A` should show an application named "secregen-controller-ctrl"
+1. `kctrl app list -A` should show an application named "secregen-controller"
+1. `kubectl get all -n secretgen-controller` should will show several items installed if the secretgen-controller was installed
+   manually with the defaults
+
+(If you are not familiar with the "kapp" and "kctrl" commands, don't worry - we will cover them later)
+
+If the secretgen-controller is not already installed in your cluster, you can easily install it with one of the following commands:
 
 ```shell
-tanzu package installed list -A
+kapp deploy -a secretgen-controller -f https://github.com/vmware-tanzu/carvel-secretgen-controller/releases/latest/download/release.yml
 ```
 
-If you don't see the secretgen-controller, follow these steps to install it:
+```shell
+kubectl create -f https://github.com/vmware-tanzu/carvel-secretgen-controller/releases/latest/download/release.yml
+```
 
-1. Determine what version is available on your cluster:
-
-   ```shell
-   tanzu package available list secretgen-controller.community.tanzu.vmware.com -n tkg-system
-   ```
-
-   On my unmanaged cluster, I can see that version 0.7.1 is available.
-
-2. Install secretgen-controller
-
-   <details><summary>Powershell</summary>
-   <p>
-
-   ```powershell
-   tanzu package install secretgen-controller `
-     --package-name secretgen-controller.community.tanzu.vmware.com `
-     --version 0.7.1 `
-     --namespace tkg-system
-   ```
-   
-   </p>
-   </details>
-
-   <details><summary>MacOS/Linux</summary>
-   <p>
-
-   ```shell
-   tanzu package install secretgen-controller \
-     --package-name secretgen-controller.community.tanzu.vmware.com \
-     --version 0.7.1 \
-     --namespace tkg-system
-   ```
-
-   </p>
-   </details>
-
-One the package reconciles, you should see it in the installed packages list:
+Once the system reconciles, you should see items in the  in the installed packages list:
 
 ```shell
-tanzu package installed list -A
+kubectl get all -n secretgen-controller
 ```
 
 ## Basics of secretgen-controller
