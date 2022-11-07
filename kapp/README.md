@@ -207,8 +207,8 @@ Kubernetes resources and Kapp knows how to deal with them. But kapp may not unde
 resource available on any particular cluster. To deal with this problem, kapp includes a very powerful configuration
 mechanism.
 
-If you examine the out-of-the-box supply chain, you will see a kapp configuration like this included in the
-templates that deploy applications to Knative:
+If you examine the out-of-the-box supply chains delevered with Tanzu Application Platform (TAP), you will see a kapp
+configuration like this included in the templates that deploy applications to Knative:
 
 ```yaml
 apiVersion: kapp.k14s.io/v1alpha1
@@ -225,27 +225,13 @@ rebaseRules:
     resourceMatchers: *matchers
 ```
 
-I retrieved this from the following command:
+I retrieved this from GitHub here: https://github.com/vmware-tanzu/cartographer-catalog/blob/de7af88643cc432739b28b758b56398345d038cf/src/templates/app.yaml#L99-L110
 
-<details><summary>TAP</summary>
-<p>
+If you have TAP installed, you can also see it with the following command:
 
 ```shell
 kubectl get ClusterDeploymentTemplate app-deploy -o yaml
 ```
-
-</p>
-</details>
-
-<details><summary>TCE</summary>
-<p>
-
-```shell
-kubectl get ClusterTemplate app -o yaml 
-```
-
-</p>
-</details>
 
 We won't dig into the details of this configuration except to say that it informs kapp of some annotations
 specific to Knative that kapp should manage. Note that this is not YAML for a Kubernetes resource - it is YAML to

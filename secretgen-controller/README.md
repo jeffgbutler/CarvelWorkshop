@@ -42,7 +42,7 @@ kapp deploy -a secretgen-controller -f https://github.com/vmware-tanzu/carvel-se
 kubectl create -f https://github.com/vmware-tanzu/carvel-secretgen-controller/releases/latest/download/release.yml
 ```
 
-Once the system reconciles, you should see items in the  in the installed packages list:
+Once the system reconciles, you should see items in the secretgen-controller namespace:
 
 ```shell
 kubectl get all -n secretgen-controller

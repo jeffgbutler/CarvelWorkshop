@@ -6,7 +6,7 @@ in the Tanzu and Carvel portfolio rely on YTT, so it is a fundamental tool in th
 YTT operates in two main modes: templating and overlays.
 
 1. You can create YAML templates that accept input values from a variety of sources. YTT includes a templating language based
-   on Google Starlink that can be used to build logic into templates (loops, conditionals, etc.) YTT templates are part of the
+   on Google Starlark that can be used to build logic into templates (loops, conditionals, etc.) YTT templates are part of the
    installation of many Tanzu tools. Further, you will most likely need to write YTT templates if you want to create your own
    Cartographer supply chains or if you use the kapp-controller. The template mode is the mode we will explore in this lesson.
 2. YTT can also operate in "overlay" mode where it can modify (or patch) existing YAML. This is useful if you need to modify
@@ -17,8 +17,7 @@ In templating mode, YTT will take one or more input YAML files, substitute place
 from a variety of sources, and output a final result. YTT is "YAML aware" which means that YTT understands the correct
 structure of YAML documents and can build valid YAML composed of fragments. If you are familiar with compilers, you
 can think that YTT builds an AST (abstract syntax tree) for YAML - which is far more sophisticated than simple string
-substitution. This can be incredibly useful if you need to build a single template that can be reused many times (as we
-will do with Cartographer).
+substitution. This can be incredibly useful if you need to build a single template that can be reused many times.
 
 Full details about YTT are here: https://carvel.dev/ytt/. That page also includes an online "playground" for YTT that
 can be very helpful when learning more about YTT. You can access the playground directly
@@ -343,6 +342,6 @@ ytt -f Secret.yaml --data-values-file SecretValues.yaml | kubectl create -f-
 ```
 
 Many of the Tanzu configuration commands make use of YTT to perform functions like this. In addition, the Kapp Controller and
-Cartographer both support YTT templating in their CRDs as we shall see shortly.
+Cartographer both support YTT templating in their CRDs.
 
 [Next (Kbld Overview) -&gt;](../kbld/README.md)
