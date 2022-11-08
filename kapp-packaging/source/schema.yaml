@@ -1,0 +1,5 @@
+#@data/values-schema
+---
+namespace: kuard-app
+replicas: 2
+base_domain: "127-0-0-1.nip.io"
