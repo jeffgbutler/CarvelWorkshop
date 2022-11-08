@@ -6,9 +6,9 @@ spec:
   serviceAccountName: default
   fetch:
     - git:
-        url: https://github.com/jeffgbutler/TCEWorkshop
+        url: https://github.com/jeffgbutler/CarvelWorkshop
         ref: main
-        subPath: 90-Carvel/kapp-controller/config
+        subPath: kapp-controller/config
     - inline:
         paths:
           schema.yaml: |
