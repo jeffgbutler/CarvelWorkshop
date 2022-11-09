@@ -161,12 +161,20 @@ Once the package is available in the cluster, we can install an instance with a 
 kctrl package install -i simple-kuard -p kuard.jeffgbutler.github.io --version 1.0.0 -n custom-packages
 ```
 
+```shell
+tanzu package install simple-kuard --package-name kuard.jeffgbutler.github.io --version 1.0.0 -n custom-packages
+```
+
 You should see the application at this URL: http://kuard.kuard-app.127-0-0-1.nip.io/
 
 You can delete the application with the following command:
 
 ```shell
 kctrl package installed delete -i simple-kuard -n custom-packages
+```
+
+```shell
+tanzu package installed delete simple-kuard -n custom-packages
 ```
 
 If you want to override any of the default variable names, you can create a values.yaml file and supply it when
