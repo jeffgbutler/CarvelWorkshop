@@ -1,4 +1,4 @@
 #@data/values
 ---
-namespace: kuard-app-ns
+namespace: kuard-ns4
 replicas: 3
