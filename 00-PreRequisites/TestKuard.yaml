@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: kuard-ns1
+  name: kuard-test
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -9,7 +9,7 @@ metadata:
   labels:
     app: kuard
   name: kuard
-  namespace: kuard-ns1
+  namespace: kuard-test
 spec:
   replicas: 1
   selector:
@@ -30,7 +30,7 @@ metadata:
   labels:
     app: kuard
   name: kuard
-  namespace: kuard-ns1
+  namespace: kuard-test
 spec:
   ports:
   - name: 8080-8080
@@ -45,12 +45,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: kuard
-  namespace: kuard-ns1
+  namespace: kuard-test
   labels:
     app: ingress
 spec:
   rules:
-  - host: kuard.127-0-0-1.nip.io
+  - host: kuard.kuard-test.127-0-0-1.nip.io
     http:
       paths:
       - path: /
