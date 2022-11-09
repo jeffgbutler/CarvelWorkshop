@@ -37,6 +37,12 @@ There are different ways to build software packages for the Kaapp Controller:
 
 You can read all about Carvel software packaing here: https://carvel.dev/kapp-controller/docs/v0.42.0/packaging/
 
+**Important:** Open a terminal window in the "kapp-packaging" directory in this repository before proceeding:
+
+```shell
+cd ../kapp-packaging
+```
+
 ## Building a Package for Kuard
 
 The [kuard-app](kuard-app/) directory in this repo contains YTT templates for deploying Kuard on a cluster.
