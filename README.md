@@ -35,3 +35,4 @@ have a good understanding of ytt, kbld, and kapp before reading about the kapp-c
 - [kbld](kbld/README.md)
 - [kapp](kapp/README.md)
 - [kapp-controller](kapp-controller/README.md)
+- [kapp-controller Software Packaging](kapp-packaging/README.md)
