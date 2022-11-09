@@ -17,6 +17,12 @@ Full details about the Kapp controller are here: https://carvel.dev/kapp-control
 The kapp-controller also has an associated CLI called "kctrl" that can interact with the kapp-controller installed in a
 cluster.
 
+**Important:** Open a terminal window in the "kapp-controller" directory in this repository before proceeding:
+
+```shell
+cd ../kapp-controller
+```
+
 ## Running Kapp in a Cluster
 
 The kapp-controller runs kapp in a cluster. But what does that mean exactly?
@@ -137,13 +143,13 @@ kapp deploy -a kapp-controller-simple-example -f rbac.yaml -f simple-example.yam
 
 The kapp-controller runs kapp, so we would expect the kapp CLI to work on applications deployed through the kapp-controller.
 And it does. The only caveat is that the application name is not what you might expect. In the example above, we created
-an App resource names "kuard-kapp". If you do "kapp list" you will see that the application name is "kuard-kapp-ctrl". The
-kapp-controller appends "-ctrl" to all the application names it creates.
+an App resource names "kuard-kapp". If you do "kapp list" you will see that the application name is "kuard-kapp.app". The
+kapp-controller appends ".app" to all the application names it creates.
 
 Once you know that, you can use any kapp CLI command. For example:
 
 ```shell
-kapp logs -a kuard-kapp-ctrl
+kapp logs -a kuard-kapp.app
 ```
 
 ## Working With the kctrl CLI
@@ -194,7 +200,7 @@ kapp-controller. It has the following characteristics:
    ```yaml
    #@data/values
    ---
-   namespace: kuard-app-ns
+   namespace: kuard-ns4
    replicas: 3
    ```
 3. The kapp-controller is configured to run both ytt and kbld on the input files before deploying the application with kapp
@@ -209,7 +215,7 @@ Note that the rbac.yaml file isn't necessary if you haven't deleted the previous
 you will see the deployment in the "kuard-app-ns" namespace:
 
 ```shell
-kubectl get all -n kuard-app-ns
+kubectl get all -n kuard-ns4
 ```
 
 If you want to experiment with this, then we suggest you change the Git reference to a repo where you can commit. Then
@@ -223,7 +229,7 @@ kapp delete -a kapp-controller-simple-example
 ```
 
 ```shell
-kctrl app delete kuard-kapp-gitops
+kapp delete -a kuard-kapp-gitops.app
 ```
 
 [Next (Kapp-Controller Packaging) -&gt;](../kapp-packaging/README.md)

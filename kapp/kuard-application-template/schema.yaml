@@ -1,4 +1,4 @@
 #@data/values-schema
 ---
-namespace: kuard-ns1
+namespace: kuard-ns2
 replicas: 2

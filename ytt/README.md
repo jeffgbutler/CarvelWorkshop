@@ -23,6 +23,12 @@ Full details about YTT are here: https://carvel.dev/ytt/. That page also include
 can be very helpful when learning more about YTT. You can access the playground directly
 here: https://carvel.dev/ytt/#playground
 
+**Important:** Open a terminal window in the "ytt" directory in this repository before proceeding:
+
+```shell
+cd ../ytt
+```
+
 ## Simple Example
 Here is a simple example. Suppose we have a YAML file named `MyName.yaml` like this:
 

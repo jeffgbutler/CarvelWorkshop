@@ -14,6 +14,12 @@ separate exercise.
 
 Full details about the Kapp CLI are here: https://carvel.dev/kapp/
 
+**Important:** Open a terminal window in the "kapp" directory in this repository before proceeding:
+
+```shell
+cd ../kapp
+```
+
 ## Creating a Kubernetes Application
 
 Suppose we want to install an application and make it available on our cluster. This might involve the
@@ -159,7 +165,7 @@ kapp delete -a kuard
 ## Combining Kapp and YTT
 
 In the directory [kuard-application-template](kuard-application-template/) there is a set of ytt templates for the same kuard application.
-The templates accept two values: "namespaces" and "replicas" with defaults "kuard-ns1" and "2" respectively. Note that the replicas value
+The templates accept two values: "namespaces" and "replicas" with defaults "kuard-ns2" and "2" respectively. Note that the replicas value
 is an integer - this will need some special care when calling ytt.
 
 We can combine ytt and kapp to deploy or change the application as needed. When we pipe ytt output into kapp, we need to specify
@@ -189,10 +195,10 @@ that change reconciles.
 Now let's try something more complex - let's change the namespace:
 
 ```shell
-ytt -f kuard-application-template/. -v namespace=kuard-ns2 | kapp deploy -a kuard -y -f-
+ytt -f kuard-application-template/. -v namespace=kuard-ns3 | kapp deploy -a kuard -y -f-
 ```
 
-Kapp reconciles this change by deleting the old namespace "kuard-ns1" and recreating everything in the new namespace "kuard-ns2".
+Kapp reconciles this change by deleting the old namespace "kuard-ns2" and recreating everything in the new namespace "kuard-ns3".
 
 ![kapp change namespace with ytt](images/kapp-ytt-namespace.png)
 

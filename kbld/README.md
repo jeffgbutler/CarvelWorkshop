@@ -10,6 +10,12 @@ Carvel tool: [imgpkg](https://carvel.dev/imgpkg/).
 
 Full details about kbld are here: https://carvel.dev/kbld/
 
+**Important:** Open a terminal window in the "kbld" directory in this repository before proceeding:
+
+```shell
+cd ../kbld
+```
+
 ## Image Building
 
 Kbld can orchestrate image builds for local development. This can be useful if you are doing Dockerfile or Pack
