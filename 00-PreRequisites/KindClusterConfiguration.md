@@ -34,3 +34,5 @@ Once you have verified access to Kuard, uninstall it with this command:
 ```shell
 kapp delete -a kuard-test
 ```
+
+[Next (Secretgen-Controller) -&gt;](../secretgen-controller/README.md)
