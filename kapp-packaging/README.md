@@ -118,8 +118,10 @@ definition is still only on our local machine:
 kapp deploy -a kuard-app -f carvel-artifacts/packages/kuard.jeffgbutler.github.io -n custom-packages
 ```
 
-You can see the packages available on your cluster with the following commands (both kctrl and tanzu
-versions are shown):
+You can see the packages available on your cluster with the following commands. In the following sections, I
+will show both "kctrl" and "tanzu" versions of the commands. They are 100% interchangeable and you can use
+either verion.
+
 ```shell
 kctrl package available list -A
 ```
@@ -185,6 +187,7 @@ namespace: jgb-ns
 ```
 
 You can pass the file when creating the application like this:
+
 ```shell
 kctrl package install -i jgb-kuard -p kuard.jeffgbutler.github.io --version 1.0.0 -n custom-packages --values-file values.yaml
 ```
