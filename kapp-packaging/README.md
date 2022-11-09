@@ -68,11 +68,11 @@ This starts a small UI that will ask some basic questions about our app. Here is
 
 | Wizard Item | Answer |
 |---|---|
-|Package reference name| kuard.jeffgbutler.github.io |
-|Content Location | Git Repository (#4) |
-|Git URL | https://github.com/jeffgbutler/CarvelWorkshop |
-|Git reference | origin/main |
-|Paths | kapp-packaging/kuard-app/*.yaml |
+| Package reference name| kuard.jeffgbutler.github.io |
+| Content Location | Git Repository (#4) |
+| Git URL | https://github.com/jeffgbutler/CarvelWorkshop |
+| Git reference | origin/main |
+| Paths | kapp-packaging/kuard-app/*.yaml |
 
 Once these values are entered, the wizard completes and builds a directory containing
 the downloaded application configuration files (in the "upstream" directory), as well
@@ -193,3 +193,98 @@ kctrl package install -i jgb-kuard -p kuard.jeffgbutler.github.io --version 1.0.
 ```
 
 Now the application is in a different namespace ("jgb-ns") and the URL has also changed: http://kuard.jgb-ns.127-0-0-1.nip.io/
+
+## Building a Package Repository
+
+One issue we've not addressed is that we had to manually install the package in our cluster with kapp using
+the yaml generated when we created the package. That is not ideal - we don't want to copy that yaml around
+to all our clusters. Kapp packaging supports publising package information in a package repository that
+can easliy be added to any cluster.
+
+### Cluster Cleanup
+
+First let's remove all the old applications and packages:
+
+```shell
+kctrl package installed delete -i simple-kuard -n custom-packages
+```
+
+```shell
+kctrl package installed delete -i jgb-kuard -n custom-packages
+```
+
+```shell
+kapp delete -a kuard-app -n custom-packages
+```
+
+### Publish the Package Repository
+
+Make a new directory called "demo-repo" in the "packaging-exercise" directory
+
+```shell
+cd packaging exercise
+```
+
+```shell
+mkdir demo-repo
+```
+
+Change to the "kuard-app" directory
+```shell
+cd kuard-app
+```
+
+Release the package, but this time save some outputs to the package repository directory:
+```shell
+kctrl package release --version 1.0.0 --repo-output ../demo-repo
+```
+
+You should be able to take the default values to the wizard prompts - it will remember
+the values wou specified previously.
+
+Now change to the "demo-repo" directory and verify that package metadata is available:
+
+```shell
+cd ../demo-repo
+```
+
+Note that you can repeat the "kctrl package release" commands as many times as you wish - this allows you to
+build a simgle repository with many different packages available in it. All Tanzu software if delivered using
+this mechanism.
+
+Now let's publish the repository:
+
+```shell
+kctrl package repo release -v 1.0.0
+```
+
+THis will start a wizard that asks for further information. Here's what I entered:
+
+| Wizard Item | Answer |
+|---|---|
+| Package repository name| demo-repo.jeffgbutler.github.io |
+| Registry URL | index.docker.io/jeffgbutler/demo-repo |
+
+This, again, will use imgpkg to create an OCI image containing the package metadata, and then
+publish the image.
+
+Once the image is published, we can add the repository to our cluster:
+
+```shell
+kctrl package repository add -r demo-repo --url index.docker.io/jeffgbutler/demo-repo:1.0.0 -n custom-packages
+```
+
+```shell
+tanzu package repository add demo-repo --url index.docker.io/jeffgbutler/demo-repo:1.0.0 -n custom-packages
+```
+
+Now we can see that the same package is avail;able in the cluster, but package information was retrived from
+a published source.
+
+```shell
+kctrl package available list -A
+```
+
+```shell
+tanzu package available list -A
+```
