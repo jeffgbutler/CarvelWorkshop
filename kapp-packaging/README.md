@@ -3,8 +3,8 @@
 We have seen how we can use the kapp controller to manage applications on Kubernetes. This is useful, but it
 is only the beginning of what's possible with the kapp controller. A more powerful capability is the capability
 to package and publish software applications in such a way that they are easy to install and upgrade on
-any cluster. This is a key capability of the kapp controller and it forms the basis for software delivery in
-all of the Tanzu products. In this sections, we'll take a quick look at how this works.
+any cluster. This is a key capability of the kapp controller, and it forms the basis for software delivery in
+all the Tanzu products. In this section, we'll take a quick look at how this works.
 
 First, we'll say a few words about two other Carvel tools that we haven't touched yet: vendir, and imgpkg.
 
@@ -22,20 +22,20 @@ of the packages.
 
 ## About imgpkg
 
-The Carvel tool imgpkg is used to build OCI images from arbitrary content. With kapp packging, we will
+The Carvel tool imgpkg is used to build OCI images from arbitrary content. With kapp packaging, we will
 publish an image containing the configuration of an application - and imgpkg will be used under the covers
 to create the image.
 
 ## Building Application Packages
 
-There are different ways to build software packages for the Kaapp Controller:
+There are different ways to build software packages for the Kapp Controller:
 
 1. You can hand code all the YAML yourself. This exposes the full power of Carvel packaging and
    is an appropriate strategy for fully supported software releases
 1. You can use the "kctrl" CLI to create a simple package. This is a simpler way to get started
    and it is what we will use in this workshop
 
-You can read all about Carvel software packaing here: https://carvel.dev/kapp-controller/docs/v0.42.0/packaging/
+You can read all about Carvel software packaging here: https://carvel.dev/kapp-controller/docs/v0.42.0/packaging/
 
 **Important:** Open a terminal window in the "kapp-packaging" directory in this repository before proceeding:
 
@@ -72,13 +72,13 @@ kctrl package init
 
 This starts a small UI that will ask some basic questions about our app. Here is what I used:
 
-| Wizard Item | Answer |
-|---|---|
-| Package reference name| kuard.jeffgbutler.github.io |
-| Content Location | Git Repository (#4) |
-| Git URL | https://github.com/jeffgbutler/CarvelWorkshop |
-| Git reference | origin/main |
-| Paths | kapp-packaging/kuard-app/*.yaml |
+| Wizard Item            | Answer                                        |
+|------------------------|-----------------------------------------------|
+| Package reference name | kuard.jeffgbutler.github.io                   |
+| Content Location       | Git Repository (#4)                           |
+| Git URL                | https://github.com/jeffgbutler/CarvelWorkshop |
+| Git reference          | origin/main                                   |
+| Paths                  | kapp-packaging/kuard-app/*.yaml               |
 
 Once these values are entered, the wizard completes and builds a directory containing
 the downloaded application configuration files (in the "upstream" directory), as well
@@ -125,8 +125,8 @@ kapp deploy -a kuard-app -f carvel-artifacts/packages/kuard.jeffgbutler.github.i
 ```
 
 You can see the packages available on your cluster with the following commands. In the following sections, I
-will show both "kctrl" and "tanzu" versions of the commands. They are 100% interchangeable and you can use
-either verion.
+will show both "kctrl" and "tanzu" versions of the commands. They are 100% interchangeable, and you can use
+either version.
 
 ```shell
 kctrl package available list -A
@@ -204,8 +204,8 @@ Now the application is in a different namespace ("jgb-ns") and the URL has also 
 
 One issue we've not addressed is that we had to manually install the package in our cluster with kapp using
 the yaml generated when we created the package. That is not ideal - we don't want to copy that yaml around
-to all our clusters. Kapp packaging supports publising package information in a package repository that
-can easliy be added to any cluster.
+to all our clusters. Kapp packaging supports publishing package information in a package repository that
+can easily be added to any cluster.
 
 ### Cluster Cleanup
 
@@ -255,7 +255,7 @@ cd ../demo-repo
 ```
 
 Note that you can repeat the "kctrl package release" commands as many times as you wish - this allows you to
-build a simgle repository with many different packages available in it. All Tanzu software if delivered using
+build a single repository with many packages available in it. All Tanzu software is delivered using
 this mechanism.
 
 Now let's publish the repository:
@@ -266,10 +266,10 @@ kctrl package repo release -v 1.0.0
 
 THis will start a wizard that asks for further information. Here's what I entered:
 
-| Wizard Item | Answer |
-|---|---|
-| Package repository name| demo-repo.jeffgbutler.github.io |
-| Registry URL | index.docker.io/jeffgbutler/demo-repo |
+| Wizard Item             | Answer                                |
+|-------------------------|---------------------------------------|
+| Package repository name | demo-repo.jeffgbutler.github.io       |
+| Registry URL            | index.docker.io/jeffgbutler/demo-repo |
 
 This, again, will use imgpkg to create an OCI image containing the package metadata, and then
 publish the image.
@@ -284,7 +284,7 @@ kctrl package repository add -r demo-repo --url index.docker.io/jeffgbutler/demo
 tanzu package repository add demo-repo --url index.docker.io/jeffgbutler/demo-repo:1.0.0 -n custom-packages
 ```
 
-Now we can see that the same package is avail;able in the cluster, but package information was retrived from
+Now we can see that the same package is avail;able in the cluster, but package information was retrieved from
 a published source.
 
 ```shell
