@@ -61,15 +61,23 @@ Install required tools:
    ```shell
    choco install jq
    ```
-- Carvel Tools:
+- Carvel Tools - some are supported by Chocolatey, but Chocolatey is not kept up to date so it is best to install manually. For each
+  tool, download the latest Windows binary, rename it, and add it to your path. For simplicity, I recommend creating a folder
+  named "\TanzuTools" and adding it to the path, then you can place all the downloaded files in a single directory.
+
+   | Tool   |  Download Location                                            | File Name                | Rename To  |
+   |--------|---------------------------------------------------------------|--------------------------|------------|
+   | kapp   | https://github.com/carvel-dev/kapp/releases/latest/           | kapp-windows-amd64.exe   | kapp.exe   |
+   | kbld   | https://github.com/carvel-dev/kbld/releases/latest            | kbld-windows-amd64.exe   | kbld.exe   |
+   | kctrl  | https://github.com/carvel-dev/kapp-controller/releases/latest | kctrl-windows-amd64.exe  | kctrl.exe  |
+   | imgpkg | https://github.com/carvel-dev/imgpkg/releases/latest          | imgpkg-windows-amd64.exe | imgpkg.exe |
+   | vendir | https://github.com/carvel-dev/vendir/releases/latest          | vendir-windows-amd64.exe | vendir.exe |
+   | ytt    | https://github.com/carvel-dev/ytt/releases/latest             | ytt-windows-amd64.exe    | ytt.exe    |
+
+- Kubectl Krew Plugin Manager (Optional, but helpful):
    ```shell
-   choco install kapp ytt
+   choco install krww
    ```
-- Carvel Kbld: Go to https://github.com/vmware-tanzu/carvel-kbld/releases, download latest Windows binary, rename it to "kbld.exe", add it to the path
-- Carvel Kctrl: https://github.com/vmware-tanzu/carvel-kapp-controller/releases, download latest Windows binary, rename it to "kctrl.exe", add it to the path
-- Carvel Imgpkg: Go to https://github.com/vmware-tanzu/carvel-imgpkg/releases, download latest Windows binary, rename it to "imgpkg.exe", add it to the path
-- Carvel Vendir: Go to https://github.com/vmware-tanzu/carvel-vendir/releases, download latest Windows binary, rename it to "vendir.exe", add it to the path
-- Kubectl Krew Plugin Manager (Optional, but helpful): https://krew.sigs.k8s.io/docs/user-guide/setup/install/
 - Kubectl tree plugin (Optional, but helpful. Requires Krew plugin manager from previous step):
    ```shell
    kubectl krew install tree

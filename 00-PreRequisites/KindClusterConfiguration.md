@@ -9,12 +9,12 @@ kind create cluster --config KindClusterConfig.yaml
 
 Install the Carvel SecretGen controller:
 ```shell
-kubectl apply -f https://github.com/vmware-tanzu/carvel-secretgen-controller/releases/latest/download/release.yml
+kubectl apply -f https://github.com/carvel-dev/secretgen-controller/releases/latest/download/release.yml
 ```
 
 Install the Carvel Kapp controller:
 ```shell
-kubectl apply -f https://github.com/vmware-tanzu/carvel-kapp-controller/releases/latest/download/release.yml
+kubectl apply -f https://github.com/carvel-dev/kapp-controller/releases/latest/download/release.yml
 ```
 
 Install Contour Ingress Controller
