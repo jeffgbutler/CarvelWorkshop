@@ -1,4 +1,0 @@
-#@ load("@ytt:data", "data")
-your:
-  name:
-    is: #@ data.values.your_name

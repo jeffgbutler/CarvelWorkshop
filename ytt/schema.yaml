@@ -1,6 +1,6 @@
 #@data/values-schema
 ---
-my_name: Barney
+namespace1: yttnamespace
 
 #@schema/nullable
-your_name: ""
+namespace2: ""

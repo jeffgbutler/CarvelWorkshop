@@ -30,27 +30,29 @@ cd ../ytt
 ```
 
 ## Simple Example
-Here is a simple example. Suppose we have a YAML file named `MyName.yaml` like this:
+Here is a simple example. Suppose we have a YAML file named `namespace1.yaml` like this:
 
 ```yaml
 #@ load("@ytt:data", "data")
-my:
-  name:
-    is: #@ data.values.my_name
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: #@ data.values.namespace1
 ```
 
 We can execute YTT with the following command:
 
 ```shell
-ytt -f MyName.yaml -v my_name=Fred
+ytt -f namespace1.yaml -v namespace1=yttns1
 ```
 
 The output looks like this:
 
 ```yaml
-my:
-  name:
-    is: Fred
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yttns1
 ```
 
 All YTT commands look like YAML comments, so YAML templates are usually valid YAML and will pass validation tools.
@@ -58,7 +60,7 @@ In the source file, there are two YTT commands:
 
 1. `#@ load("@ytt:data", "data")` - this instructs YTT to load that `data` module and make all the `data` values
    available with the key `data.values` (`values` is built in and provides access to the individual data elements.)
-2. `#@ data.values.my_name` - this instructs YTT to insert the data value `my_name` into the YAML at this position
+2. `#@ data.values.namespace1` - this instructs YTT to insert the data value `namespace1` into the YAML at this position
 
 Data values can come from a variety of sources - most commonly from command line flags as shown above, or from a file
 as we will show below.
@@ -66,38 +68,42 @@ as we will show below.
 ## Multiple Input Files
 
 If you supply more than one input file to YTT, the output will be a single consolidated YAML file. For example, suppose
-there are two input files named `MyName.yaml` and `YourName.yaml` as shown below:
+there are two input files named `namespace1.yaml` and `namespace2.yaml` as shown below:
 
 ```yaml
 #@ load("@ytt:data", "data")
-my:
-  name:
-    is: #@ data.values.my_name
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: #@ data.values.namespace1
 ```
 
 ```yaml
 #@ load("@ytt:data", "data")
-your:
-  name:
-    is: #@ data.values.your_name
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: #@ data.values.namespace2
 ```
 
 We can execute YTT with the following command:
 
 ```shell
-ytt -f MyName.yaml -f YourName.yaml -v my_name=Fred -v your_name=Wilma
+ytt -f namespace1.yaml -f namespace2.yaml -v namespace1=yttns1 -v namespace2=yttns2
 ```
 
 The output looks like this:
 
 ```yaml
-my:
-  name:
-    is: Fred
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yttns1
 ---
-your:
-  name:
-    is: Wilma
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yttns2
 ```
 
 As you can see, YTT created a single output YAML and substituted the correct values in each input file.
@@ -105,45 +111,49 @@ As you can see, YTT created a single output YAML and substituted the correct val
 ## Using a Values Input File
 
 Rather than specifying data values with command line flags, you can also use a file (commonly named `values.yaml`) to
-supply input values. For example, suppose we have the same two input files named `MyName.yaml` and `YourName.yaml` as shown below:
+supply input values. For example, suppose we have the same two input files named `namespace1.yaml` and `namespace2.yaml` as shown below:
 
 ```yaml
 #@ load("@ytt:data", "data")
-my:
-  name:
-    is: #@ data.values.my_name
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: #@ data.values.namespace1
 ```
 
 ```yaml
 #@ load("@ytt:data", "data")
-your:
-  name:
-    is: #@ data.values.your_name
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: #@ data.values.namespace2
 ```
 
 But now we have another file named `values.yaml` with content as shown below:
 
 ```yaml
-my_name: Fred
-your_name: Wilma
+namespace1: yttns1
+namespace2: yttns2
 ```
 
 We can execute YTT with the following command:
 
 ```shell
-ytt -f MyName.yaml -f YourName.yaml --data-values-file values.yaml
+ytt -f namespace1.yaml -f namespace2.yaml --data-values-file values.yaml
 ```
 
 The output looks like this:
 
 ```yaml
-my:
-  name:
-    is: Fred
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yttns1
 ---
-your:
-  name:
-    is: Wilma
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yttns2
 ```
 
 As you can see, YTT created the same output as before and substituted the correct values in each input file.
@@ -157,46 +167,49 @@ Here is a simple example. Suppose we have a YAML file named `schema.yaml` like t
 ```yaml
 #@data/values-schema
 ---
-my_name: Barney
+namespace1: yttnamespace
 
 #@schema/nullable
-your_name: ""
+namespace2: ""
 ```
 
-This file indicates two variables - our familiar `my_name` and `your_name`. The `my_name` variable has a default value of "Barney".
-The `your_name` variable is in a section denoted "nullable" - which means that if no value is specified for that variable, it's value
-will be null.
+This file indicates two variables - our familiar `namespace1` and `namespace2`. The `namespace1` variable has a default value of
+"yttnamespace". The `namespace2` variable is in a section denoted "nullable" - which means that if no value is specified for that
+variable, it's value will be null.
 
 We can try it out with this command:
 
 ```shell
-ytt -f MyName.yaml -f YourName.yaml -f schema.yaml
+ytt -f namespace1.yaml -f namespace2.yaml -f schema.yaml
 ```
 
 The output is as follows:
 
 ```yaml
-my:
-  name:
-    is: Barney
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yttnamespace
 ---
-your:
-  name:
-    is: null
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: null
 ```
 
-You can see that the default values were used for both `my_name` and `your_name`. The "null" for `your_name` isn't great - we'll deal
+You can see that the default values were used for both `namespace1` and `namespace2`. The "null" for `namespace2` isn't great - we'll deal
 with that in the next section.
 
 Of course, we can supply values for these variable in the normal way. So this command produces what we've seen before:
 
 ```shell
-ytt -f MyName.yaml -f YourName.yaml -f schema.yaml --data-values-file values.yaml
+ytt -f namespace1.yaml -f namespace2.yaml -f schema.yaml --data-values-file values.yaml
 ```
 
-## YTT Functions
+## YTT Functions and "If"
 
-You can define functions in YTT that do a variety of things. One very useful thing to do with a function is to calculate and return a YAML fragment.
+You can define functions in YTT that do a variety of things. One very useful thing to do with a function is to calculate and return a
+YAML fragment.
 
 Suppose we have an input file named `YTTFunctions.yaml` like this:
 
@@ -204,41 +217,42 @@ Suppose we have an input file named `YTTFunctions.yaml` like this:
 #@ load("@ytt:data", "data")
 
 #@ def labels():
-type: Name
+source: 'carvel-workshop'
 generated: true
 #@ end
 
-#@ def/end name(name):
-name:
-  #! intentional blank line below ignored by YTT
+#@ def namespace(name):
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: #@ name
+  #! Blank line below ignored by YTT
 
-  is: #@ name
   labels: #@ labels()
+#@ end
 
-my: #@ name(data.values.my_name)
-#@ if/end data.values.your_name:
----
-your: #@ name(data.values.your_name)
+--- #@ namespace(data.values.namespace1)
+#@ if/end data.values.namespace2:
+--- #@ namespace(data.values.namespace2)
 ```
 
 There's a lot to unpack here!
 
 1. Functions begin with `def function_name(parameters...):` and end with `end`. On line 3 we define a function named `labels`
    that accepts no parameters. This function returns a YAML fragment with two nodes - two hard coded labels.
-2. On line 8 we define a function named `name` that accepts one parameter - also called `name`. This function looks strange
-   because of the usage of `def/end`. This is a shortcut we can use when the function returns a single thing. The definition of "single thing"
-   can be elusive and confusing. In this case, the function is returning a single YAML node. Note that the end of the node is NOT
-   the blank line on line 11. Rather it is the logical end of the node on line 13. This illustrates that YTT is "YAML aware". Also,
-   please don't write functions like this in real life!
-3. On line 10 we have a YTT comment (starts with `#!`) YTT will strip comments in the resulting YAML.
-4. On line 12 we are using the parameter passed into the function
-5. On line 13 we are calling the `labels` function. YTT is smart enough to know that the YAML fragment returned from the `labels`
-   function should be a child of the node on line 13. We don't need to worry about indenting and formatting - YTT will do it for us
-6. On line 15 we call the `name` function passing in an expected input value. Again, the resulting YAML fragment will be properly
-   indented and formatted as a child of the node on line 15.
-7. On line 16 there is an "if" statement using the same type of shortcut we saw before as `if/end`. If we need more than one thing
+2. On line 8 we define a function named `namespace` that accepts one parameter - called `name`. In this case, the function is
+   returning a definition of a Kubernetes namespace that is templated - we can pass a `name` to the function and it will stamp
+   out a namespace.
+3. On line 12 we are using the parameter passed into the function
+4. On line 13 we have a YTT comment (starts with `#!`) YTT will strip comments in the resulting YAML.
+5. On line 15 we are calling the `labels` function. YTT is smart enough to know that the YAML fragment returned from the `labels`
+   function should be a child of the node on line 15. We don't need to worry about indenting and formatting - YTT will do it for us
+6. On line 18 we call the `namespace` function passing in an expected input value. Again, the resulting YAML will be properly
+   indented and formatted as a child of the node on line 18.
+7. On line 19 there is an "if" statement using the the shortcut `if/end`. We can use a shorcut like this when there is only one line
+   of yaml to be written with the `if`. If we need more than one thing
    output from the "if" statement we can move the "end" to a separate line as with functions. This "if" statement checks for a null value
-   (which is our default for `your_name`) - it will only write the YAML fragment if the value is not null.
+   (which is our default for `namespace2`) - it will only write the YAML fragment if the value is not null.
 
 We can execute YTT with the following command:
 
@@ -249,19 +263,21 @@ ytt -f YTTFunctions.yaml -f schema.yaml --data-values-file values.yaml
 The output will look like this:
 
 ```yaml
-my:
-  name:
-    is: Fred
-    labels:
-      type: Name
-      generated: true
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yttns1
+  labels:
+    source: carvel-workshop
+    generated: true
 ---
-your:
-  name:
-    is: Wilma
-    labels:
-      type: Name
-      generated: true
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yttns2
+  labels:
+    source: carvel-workshop
+    generated: true
 ```
 
 Is that what you expected? What happens if we omit the values file?
@@ -270,16 +286,89 @@ Is that what you expected? What happens if we omit the values file?
 ytt -f YTTFunctions.yaml -f schema.yaml
 ```
 
-Now we just get the first name with the default value:
+Now we just get a single namespace with the default value:
 
 ```yaml
-my:
-  name:
-    is: Barney
-    labels:
-      type: Name
-      generated: true
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yttnamespace
+  labels:
+    source: carvel-workshop
+    generated: true
 ```
+
+## YTT Loops
+
+Now suppose that we want to produce a non-determinate number of namespace. For this we can use a loop. We'll changes the template
+so it looks like this:
+
+```yaml
+#@ load("@ytt:data", "data")
+
+#@ def labels():
+source: 'carvel-workshop'
+generated: true
+#@ end
+
+#@ def namespace(name):
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: #@ name
+  #! Blank line below ignored by YTT
+
+  labels: #@ labels()
+#@ end
+
+#@ for/end ns in data.values.namespaces:
+--- #@ namespace(ns)
+```
+
+The template is the same execpt for the end where we specify a for loop. We also change the input file to look like this:
+
+```yaml
+namespaces:
+- yttns1
+- yttns2
+- yttns3
+```
+
+We can execute YTT with the following command:
+
+```shell
+ytt -f YTTLoops.yaml --data-values-file values-namespaces.yaml
+```
+
+The putput will look like this:
+
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yttns1
+  labels:
+    source: carvel-workshop
+    generated: true
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yttns2
+  labels:
+    source: carvel-workshop
+    generated: true
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: yttns3
+  labels:
+    source: carvel-workshop
+    generated: true
+```
+
 
 ## YTT Built-In Functions
 

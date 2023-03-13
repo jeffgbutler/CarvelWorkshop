@@ -15,6 +15,5 @@ metadata:
   labels: #@ labels()
 #@ end
 
---- #@ namespace(data.values.namespace1)
-#@ if/end data.values.namespace2:
---- #@ namespace(data.values.namespace2)
+#@ for/end ns in data.values.namespaces:
+--- #@ namespace(ns)
