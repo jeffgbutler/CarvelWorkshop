@@ -249,7 +249,7 @@ There's a lot to unpack here!
    function should be a child of the node on line 15. We don't need to worry about indenting and formatting - YTT will do it for us
 6. On line 18 we call the `namespace` function passing in an expected input value. Again, the resulting YAML will be properly
    indented and formatted as a child of the node on line 18.
-7. On line 19 there is an "if" statement using the the shortcut `if/end`. We can use a shorcut like this when there is only one line
+7. On line 19 there is an "if" statement using the shortcut `if/end`. We can use a shortcut like this when there is only one line
    of yaml to be written with the `if`. If we need more than one thing
    output from the "if" statement we can move the "end" to a separate line as with functions. This "if" statement checks for a null value
    (which is our default for `namespace2`) - it will only write the YAML fragment if the value is not null.
@@ -300,8 +300,8 @@ metadata:
 
 ## YTT Loops
 
-Now suppose that we want to produce a non-determinate number of namespace. For this we can use a loop. We'll changes the template
-so it looks like this:
+Now suppose that we want to produce a non-determinate number of namespace. For this we can use a loop. We'll change the
+template to look like this:
 
 ```yaml
 #@ load("@ytt:data", "data")
@@ -325,7 +325,7 @@ metadata:
 --- #@ namespace(ns)
 ```
 
-The template is the same execpt for the end where we specify a for loop. We also change the input file to look like this:
+The template is the same except for the end where we specify a for loop. We also change the input file to look like this:
 
 ```yaml
 namespaces:
@@ -340,8 +340,7 @@ We can execute YTT with the following command:
 ytt -f YTTLoops.yaml --data-values-file values-namespaces.yaml
 ```
 
-The putput will look like this:
-
+The output will look like this:
 
 ```yaml
 apiVersion: v1
