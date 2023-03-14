@@ -1,19 +1,11 @@
 #@ load("@ytt:data", "data")
 
-#@ def labels():
-source: 'carvel-workshop'
-generated: true
-#@ end
-
-#@ def namespace(name):
+#@ for/end student in data.values.students:
+---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: #@ name
-  #! Blank line below ignored by YTT
-
-  labels: #@ labels()
-#@ end
-
-#@ for/end ns in data.values.namespaces:
---- #@ namespace(ns)
+  name: #@ student.namespace
+  labels:
+    studentName: #@ student.name
+    generated: true

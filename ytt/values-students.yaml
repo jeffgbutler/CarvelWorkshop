@@ -1,0 +1,7 @@
+students:
+- namespace: student01
+  name: 'Susie Smith'
+- namespace: student02
+  name: 'Joe Jones'
+- namespace: student03
+  name: 'Barb Brown'

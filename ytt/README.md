@@ -300,44 +300,46 @@ metadata:
 
 ## YTT Loops
 
-Now suppose that we want to produce a non-determinate number of namespace. For this we can use a loop. We'll change the
-template to look like this:
+Now suppose that we want to produce a non-determinate number of namespaces for a workshop. Let's change the input file to contain a
+list of desired namespaces for each student:
+
+```yaml
+students:
+- namespace: student01
+  name: 'Susie Smith'
+- namespace: student02
+  name: 'Joe Jones'
+- namespace: student03
+  name: 'Barb Brown'
+```
+
+Now we can change the template to use a loop:
 
 ```yaml
 #@ load("@ytt:data", "data")
 
-#@ def labels():
-source: 'carvel-workshop'
-generated: true
-#@ end
-
-#@ def namespace(name):
+#@ for/end student in data.values.students:
+---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: #@ name
-  #! Blank line below ignored by YTT
-
-  labels: #@ labels()
-#@ end
-
-#@ for/end ns in data.values.namespaces:
---- #@ namespace(ns)
+  name: #@ student.namespace
+  labels:
+    studentName: #@ student.name
+    generated: true
 ```
 
-The template is the same except for the end where we specify a for loop. We also change the input file to look like this:
+In this template we have specified the entire namespace definition rather than breaking it into functions. The for loop iterates over
+the `students` element in the values file and makes a new YTT variable `student` available within the loop.
 
-```yaml
-namespaces:
-- yttns1
-- yttns2
-- yttns3
-```
+Notice the `for/end` construct. We can use a shortcut like this when there is only one YAML element affected by the loop
+(or `if` statement, or function). Even though there are several lines after the shortcut, they are all part of a single logical
+YAML element. This is a good example of YTT being "YAML aware" rather than just a simple text substitution engine.
 
 We can execute YTT with the following command:
 
 ```shell
-ytt -f YTTLoops.yaml --data-values-file values-namespaces.yaml
+ytt -f YTTLoops.yaml --data-values-file values-students.yaml
 ```
 
 The output will look like this:
@@ -346,28 +348,27 @@ The output will look like this:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: yttns1
+  name: student01
   labels:
-    source: carvel-workshop
+    studentName: Susie Smith
     generated: true
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: yttns2
+  name: student02
   labels:
-    source: carvel-workshop
+    studentName: Joe Jones
     generated: true
 ---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: yttns3
+  name: student03
   labels:
-    source: carvel-workshop
+    studentName: Barb Brown
     generated: true
 ```
-
 
 ## YTT Built-In Functions
 
