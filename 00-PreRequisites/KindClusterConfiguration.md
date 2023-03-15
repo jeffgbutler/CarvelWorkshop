@@ -22,12 +22,14 @@ Install Contour Ingress Controller
 kubectl apply -f https://projectcontour.io/quickstart/contour.yaml
 ```
 
-Install a test application:
+Install a test application (you will need to change the ingress host [TestKuard.yaml](./TestKuard.yaml) if you are
+using a pre-existing cluster):
 ```shell
 kapp deploy -a kuard-test -f TestKuard.yaml
 ```
 
-Make sure you can access Kuard at the following URL: http://kuard.kuard-test.127-0-0-1.nip.io/
+Make sure you can access Kuard at the following URL: http://kuard.kuard-test.127-0-0-1.nip.io/ (use a different URL if you changed
+the ingress host)
 
 Once you have verified access to Kuard, uninstall it with this command:
 

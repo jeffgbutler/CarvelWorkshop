@@ -1,12 +1,17 @@
 # Carvel Workshop
 
-Understanding the Carvel tools is fundamental to success with Tanzu. But it's not just for Tanzu. The Carvel
-tools are small composable tools that can be used to improve any workflow involving YAML or Kubernetes.
-Most of the Carvel tools are command line tools that do
-relatively simple things. Together, they fill in a lot missing pieces in a Kubernetes workflow.
+The Carvel tools are small composable tools that can be used to improve any workflow involving YAML or Kubernetes.
+Most of the Carvel tools are command line tools that do relatively simple things. Together, they can be used to create
+a composable toolchain for managing Kubernetes clusters.
 
-Some Carvel tools are installed into Kubernetes clusters as controllers. In fact, the definition of a "Tanzu" cluster
-is just a plain old Kubernetes cluster with two specific Carvel tools installed: the secretgen-controller and the kapp-controller.
+In addition to the command line tools, some Carvel tools are installed into Kubernetes clusters as controllers.
+
+The Carvel tools work with any Kubernetes cluster - whether it is a Tanzu cluster or not. With Tanzu, there are several major
+integrations with Carvel:
+
+1. Many Tanzu software packages are packaged for delivery with the Carvel kapp-controller
+2. Tanzu Mission Control provides secret management functions that are dependent on the Carvel secretgen-controller
+3. The Tanzu CLI includes plugins that make use of the kapp-controller ans secretgen-controller
 
 For some historical context, the Carvel tools were previously called simply "Kubernetes Tools" which was shortened to
 "k14s" in true Kubernetes fashion. "k14s" was rebranded as "Carvel" when the project was sponsored by VMware - but you
@@ -27,7 +32,7 @@ with this command:
 git clone https://github.com/jeffgbutler/CarvelWorkshop.git
 ```
 
-For some of the exercises, you might benefit from having your own fork of this repo. This is not strictly
+To run some of the samples, you might benefit from having your own fork of this repo. This is not strictly
 necessary, but will be usefull if you want to trigger deployments using GitOps techniques. If you want to try that,
 then make a fork of the repository and clone your fork. You will also need to change some values in ther sample
 files to point to your own repository.
