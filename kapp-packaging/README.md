@@ -6,6 +6,9 @@ to package and publish software applications in such a way that they are easy to
 any cluster. This is a key capability of the kapp controller, and it forms the basis for software delivery in
 all the Tanzu products. In this section, we'll take a quick look at how this works.
 
+If you are interested in learning more about package authoring, there is a good introductory post on the Carvel site
+here: https://carvel.dev/blog/kctrl-pkg-authoring-cmds/
+
 First, we'll say a few words about two other Carvel tools that we haven't touched yet: vendir, and imgpkg.
 
 ## About vendir
@@ -35,7 +38,7 @@ There are different ways to build software packages for the Kapp Controller:
 1. You can use the "kctrl" CLI to create a simple package. This is a simpler way to get started
    and it is what we will use in this workshop
 
-You can read all about Carvel software packaging here: https://carvel.dev/kapp-controller/docs/v0.42.0/packaging/
+You can read all about Carvel software packaging here: https://carvel.dev/kapp-controller/docs/v0.43.2/packaging/
 
 **Important:** Open a terminal window in the "kapp-packaging" directory in this repository before proceeding:
 
@@ -63,7 +66,7 @@ Change into the new directory...
 cd packaging-exercise/kuard-app
 ```
 
-Now we wil start the package creation utility. Remember that our source files are on GitHub in the 
+Now we will start the package creation utility. Remember that our source files are on GitHub in the 
 repo https://github.com/jeffgbutler/CarvelWorkshop/ and in directory `kapp-packaging/kuard-app`.
 
 ```shell
@@ -120,6 +123,7 @@ kubectl create ns custom-packages
 
 Now deploy the package to our cluster. Note that the package is deployed on Dockerhub, but the package
 definition is still only on our local machine:
+
 ```shell
 kapp deploy -a kuard-app -f carvel-artifacts/packages/kuard.jeffgbutler.github.io -n custom-packages
 ```
@@ -284,7 +288,7 @@ kctrl package repository add -r demo-repo --url index.docker.io/jeffgbutler/demo
 tanzu package repository add demo-repo --url index.docker.io/jeffgbutler/demo-repo:1.0.0 -n custom-packages
 ```
 
-Now we can see that the same package is avail;able in the cluster, but package information was retrieved from
+Now we can see that the same package is available in the cluster, but package information was retrieved from
 a published source.
 
 ```shell

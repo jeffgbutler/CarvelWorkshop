@@ -2,15 +2,13 @@
 
 The kapp-controller is a Kubernetes controller that has two main functions:
 
-1. It can run kapp in a cluster - this is the usage we will discuss in this workshop
+1. It can run kapp in a cluster - this is the usage we will discuss in this exercise
 2. It can be used to package software for easy installation in a cluster, and it understands how to install and modify
-   software packages. All the software available for Tanzu from VMware is packaged for easy use with the kapp-controller.
-   If you are interested in learning more about package authoring, there is a good introductory post on the Carvel site
-   here: https://carvel.dev/blog/kctrl-pkg-authoring-cmds/
+   software packages. Much of the software available for Tanzu from VMware is packaged for easy use with the kapp-controller.
+   We will cover packaging in the next exercise.
 
-Every Tanzu cluster has the kapp-controller pre-installed. In fact, having the kapp-controller installed is one of the
-defining characteristics of a "Tanzu cluster" (the other being the secretgen-controller). But the kapp-controller can be
-easily installed and used on any Kubernetes cluster - Tanzu or not.
+Most Tanzu clusters have the kapp-controller installed. The kapp-controller can also be easily installed and used on any
+Kubernetes cluster - Tanzu or not.
 
 Full details about the Kapp controller are here: https://carvel.dev/kapp-controller/
 
@@ -33,7 +31,7 @@ When we ran kapp on a workstation, we saw that:
 2. We might want to run those input files through ytt or kbld (or both!) before we send them to kapp
 3. Ultimately we want kapp to create resources in Kubernetes based on these, possibly transformed, input files
 
-The kapp-controller does exactly this. When the kapp-controller is installed in a cluster, there is a new CRD
+The kapp-controller performs these exact steps. When the kapp-controller is installed in a cluster, there is a new CRD
 of kind `App` with API version `kappctrl.k14s.io/v1alpha1`. This allows us to define input sources for kapp and
 transforms that should occur on those inputs before kapp creates the resources. Since the kapp-controller is
 Kubernetes native, any change to the definition of an App will cause the controller to reconcile again. So you
@@ -60,7 +58,7 @@ This may seem a bit abstract, so we will walk through a simple example. But firs
 
 ## Security for the Kapp Controller
 
-The kapp-controller will do it's work using a service account that you specify when you create the App spec. You will need
+The kapp-controller will do its work using a service account that you specify when you create the App spec. You will need
 to make sure that the service account has permission to all the API resources that can be created or updated by the app.
 The file [rbac.yaml](rbac.yaml) in this directory contains a `ClusterRole` with permissions for all the API resources used in
 these examples. It also includes a `ClusterRoleBinding` for the default service account in the default namespace. These are
@@ -121,7 +119,7 @@ Important things to notice in this spec:
      - kbld: {}
    ```
 
-   That looks a little strange, but it is basically telling the kapp controller we want to run kbld. You can specify
+   This looks a little strange, but it is basically telling the kapp controller we want to run kbld. You can specify
    some options for kbld if desired that roughly correspond to command line options on the kbld CLI. We don't need to
    specify anything in this case, so we just supply an empty map (`{}`)
 
@@ -225,11 +223,29 @@ then you should see the change reflected in your cluster in a minute or so.
 ## Cleanup
 
 ```shell
+kctrl app delete -a kuard-kapp-gitops
+```
+ - or -
+
+```shell
+ kapp delete -a kuard-kapp-gitops.app
+```
+
+```shell
+kctrl app delete -a kuard-kapp
+```
+ - or -
+
+```shell
+ kapp delete -a kuard-kapp.app
+```
+
+```shell
 kapp delete -a kapp-controller-simple-example
 ```
 
 ```shell
-kapp delete -a kuard-kapp-gitops.app
+kapp delete -a kuard
 ```
 
 [Next (Kapp-Controller Packaging) -&gt;](../kapp-packaging/README.md)

@@ -81,7 +81,7 @@ The output looks like this:
 You can see that kapp has determined that the namespace and deployment are already in the cluster, so only the service needs to be created.
 
 Now let's scale up the application. Change the number of replicas in [kuard-application/deployment.yaml](kuard-application/deployment.yaml)
-to 2, then run the same deployment command as above. The output is as follows:
+to 3, then run the same "kapp deploy" command as above. The output is as follows:
 
 ![kapp step 3](images/kapp-step3.png)
 
@@ -156,7 +156,7 @@ You can also follow all pod logs with this command:
 kapp logs -a kuard -f
 ```
 
-You can delete an application and all it's resources with this command:
+You can delete an application and all of its resources with this command:
 
 ```shell
 kapp delete -a kuard
@@ -177,7 +177,7 @@ First let's do a simply deploy that shouldn't change anything - the current stat
 ytt -f kuard-application-template/. | kapp deploy -a kuard -y -f-
 ```
 
-This creates a consolidated YAML describing the application (wuth ytt defaults applied), pipes the output to kapp, and
+This creates a consolidated YAML describing the application (with ytt defaults applied), pipes the output to kapp, and
 instructs kapp to update the application without asking for confirmation. Kapp may report that no changes were required
 if you didn't delete the application above.
 
@@ -241,7 +241,7 @@ kubectl get ClusterDeploymentTemplate app-deploy -o yaml
 
 We won't dig into the details of this configuration except to say that it informs kapp of some annotations
 specific to Knative that kapp should manage. Note that this is not YAML for a Kubernetes resource - it is YAML to
-configure kapp. You should include configuration YAML in the set of fies that is deployed in a kapp application,
+configure kapp. You should include configuration YAML in the set of files that is deployed in a kapp application,
 but it is strictly to alter the execution of kapp. Nothing is deployed on a cluster as a result of this YAML alone.
 
 If you want to see the details of kapp's default configuration, you can retrieve it with the following command:
@@ -252,11 +252,11 @@ kapp deploy-config
 
 Warning - it is a huge amount of configuration detail!
 
-You can read all about kapp configuration in the documentation here: https://carvel.dev/kapp/docs/v0.52.0/config/
+You can read all about kapp configuration in the documentation here: https://carvel.dev/kapp/docs/v0.54.0/config/
 
 If kapp doesn't calculate the correct order for changes with your resources, you can also add annotations
 to the resource definitions that will alter the order of execution. You can read about that
-here: https://carvel.dev/kapp/docs/v0.52.0/apply-ordering/
+here: https://carvel.dev/kapp/docs/v0.54.0/apply-ordering/
 
 
 Next we'll see how to run kapp in a cluster with the kapp-controller.
