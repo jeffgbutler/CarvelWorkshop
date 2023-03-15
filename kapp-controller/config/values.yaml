@@ -1,4 +1,4 @@
 #@data/values
 ---
 namespace: kuard-ns4
-replicas: 5
+replicas: 3
