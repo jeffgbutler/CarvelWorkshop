@@ -1,6 +1,6 @@
 # Kbld Overview
 
-Kbld (k build) is another relatively simple tool. It does two main things:
+Kbld (K Build) is another relatively simple tool. It does two main things:
 
 1. It can be used as a build tool for local development (we will not use this capability in this workshop)
 2. It can be used to transform image references to their immutable form (we will use this capability)
@@ -30,7 +30,7 @@ want to use a Cartographer supply chain for this type of workflow, so this is no
 
 ## Image Resolution
 
-In a very simple usage, kbld will seach Kubernetes YAML for image references and will transform the YAML to use
+In a very simple usage, kbld will search Kubernetes YAML for image references and will transform the YAML to use
 digests instead of labels. This can be useful to convert Kubernetes YAML to use immutable image references.
 
 For example, suppose we have a simple Kubernetes pod definition like this:
