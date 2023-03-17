@@ -11,7 +11,7 @@ integrations with Carvel:
 
 1. Many Tanzu software packages are packaged for delivery with the Carvel kapp-controller
 2. Tanzu Mission Control provides secret management functions that are dependent on the Carvel secretgen-controller
-3. The Tanzu CLI includes plugins that make use of the kapp-controller ans secretgen-controller
+3. The Tanzu CLI includes plugins that make use of the kapp-controller and secretgen-controller
 
 For some historical context, the Carvel tools were previously called simply "Kubernetes Tools" which was shortened to
 "k14s" in true Kubernetes fashion. "k14s" was rebranded as "Carvel" when the project was sponsored by VMware - but you
